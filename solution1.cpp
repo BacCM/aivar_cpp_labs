@@ -20,7 +20,7 @@ struct Student {
 	int mathematicsScore;
 	int informaticsScore;
 	int stipend;//в копейках
-	int passedExams;
+
 
 
 	Student(string _group,
@@ -32,7 +32,6 @@ struct Student {
 		int _physicsScore,
 		int _mathematicsScore,
 		int _informaticsScore,
-		int _passedExams,
 		int _stipend) {
 		name = _name;
 		surname = _surname;
@@ -71,9 +70,20 @@ struct Student {
 		if (physicsScore == 0)c++;
 		return c;
 	}
+
 	bool checkPositiveScore() const {
 		return (mathematicsScore >= 3 && physicsScore >= 3 && informaticsScore >= 3);
 	}
+
+	int calcPositiveScore() const {
+		return (mathematicsScore >= 3 ? 1 : 0) + (physicsScore >= 3 ? 1 : 0) + (informaticsScore >= 3 ? 1 : 0);
+	}
+
+	int calcNegativeScore() const {
+		return (mathematicsScore >= 3 ? 0 : 1) + (physicsScore >= 3 ? 0 : 1) + (informaticsScore >= 3 ? 0 : 1);
+	}
+
+
 	string getincials() const {
 		string inicial = name.substr(0, 1);
 		inicial = inicial + ". ";
@@ -93,15 +103,15 @@ int main() {
 	SetConsoleCP(CP_UTF8);
 	//вектор студентов
 	vector<Student>students = {
-		Student("Фуа-202б", "Иван", "Иванов", "Иванович", 2008, "мужской", 4, 5, 5, 0,1),
-		Student("Фуа-202б", "Марина", "Иванова", "Александровна", 2008, "женский", 4, 5, 4, 900,4),
-		Student("Фуа-202б", "Вероника", "Степанова", "Александровна", 2007, "женский", 4, 5, 4, 900,6),
-		Student("Фуа-202б", "Ирина", "Тухваттулина", "Александровна", 2008, "женский", 4, 5, 4, 900,7),
-		Student("Фуа-202б", "Наталья", "Богатырева", "Александровна", 2007, "женский", 4, 5, 4, 0,8),
-		Student("Фуа-202б", "Анастасия", "Цветкова", "Александровна", 2007, "женский", 4, 5, 4, 300,9),
-		Student("Фуа-202б", "Аркадий", "Тарасов", "Иванович", 2008, "мужской", 0, 0, 0, 0,1),
-		Student("Фуа-202б", "Самира", "Ханова", "Александровна", 2007, "женский", 4, 5, 4, 300,6),
-		Student("Фуа-202б", "Софья", "Ипполитова", "Ивановна", 2008, "женский", 0, 0, 0, 0,1)
+		Student("Фуа-202б", "Иван", "Иванов", "Иванович", 2008, "мужской", 4, 5, 5, 0),
+		Student("Фуа-202б", "Марина", "Иванова", "Александровна", 2008, "женский", 4, 5, 4, 900),
+		Student("Фуа-202б", "Вероника", "Степанова", "Александровна", 2007, "женский", 4, 5, 4, 900),
+		Student("Фуа-202б", "Ирина", "Тухваттулина", "Александровна", 2008, "женский", 4, 5, 4, 900),
+		Student("Фуа-202б", "Наталья", "Богатырева", "Александровна", 2007, "женский", 4, 5, 4, 0),
+		Student("Фуа-202б", "Анастасия", "Цветкова", "Александровна", 2007, "женский", 4, 5, 4, 300),
+		Student("Фуа-202б", "Аркадий", "Тарасов", "Иванович", 2008, "мужской", 0, 0, 0, 0),
+		Student("Фуа-202б", "Самира", "Ханова", "Александровна", 2007, "женский", 4, 5, 4, 300),
+		Student("Фуа-202б", "Софья", "Ипполитова", "Ивановна", 2008, "женский", 0, 0, 0, 0)
 
 	};
 	cout << "***Список студентов:***" << endl;
@@ -203,15 +213,15 @@ int main() {
 	cout << endl;
 	cout << "Задача 17:" << endl;
 	for (auto& s : students) {
-		if (s.passedExams <= 3) {
+		if (s.calcNegativeScore() >= 3) {
 			cout << "Фамилия:" << s.surname << endl;
 			cout << "Имя:" << s.name << endl;
 			cout << "Отчество:" << s.patronymic << endl;
-			cout << "Экзамены:" << s.passedExams << endl;
 		}
 	}
 	return 0;
 }
+
 
 
 
