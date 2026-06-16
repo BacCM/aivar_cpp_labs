@@ -7,7 +7,7 @@
 
 using namespace std;
 
-//Структура для представления информации о студенте
+// Структура для представления информации о студенте
 
 struct Student {
 	string group;
@@ -60,7 +60,6 @@ struct Student {
 
 	float calcAverageScore() const {
 		return (mathematicsScore + physicsScore + informaticsScore) / 3.0f;
-
 	}
 
 	int calcSkippedExams() const {
@@ -107,11 +106,10 @@ struct Student {
 int main() {
 
 	SetConsoleOutputCP(1251);
-	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
 
-	//вектор студентов
-	vector<Student> students = {
+	// Вектор студентов
+	vector<Student>students = {
 		Student("Фуа-202б", "Иван", "Иванов", "Иванович", 2008, "мужской", 4, 5, 5, 0),
 		Student("Фуа-202б", "Марина", "Иванова", "Александровна", 2008, "женский", 4, 5, 4, 900),
 		Student("Фуа-202б", "Вероника", "Степанова", "Александровна", 2007, "женский", 4, 5, 4, 900),
