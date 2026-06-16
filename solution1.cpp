@@ -277,7 +277,6 @@ int main() {
 	string testGropup = "Фуа-202б";
 	for (auto& s : students) {
 		if (s.isAllScoreExcellent() && s.group == testGropup) {
-			s.stipend += 100;//увеличение стипендии на 100
 			cout << "Фамилия:" << s.surname << endl;
 			cout << "Имя:" << s.name << endl;
 			cout << "Отчество:" << s.patronymic << endl;
