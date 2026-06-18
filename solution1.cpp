@@ -9,7 +9,11 @@
 
 using namespace std;
 
-// Структура для представления информации о студенте
+using COURSE_ID = enum {
+	CID_PHYSICS,
+	CID_MATHEMATICS,
+	CID_INFORMATICS
+};
 
 struct Student {
 	string group;
@@ -154,7 +158,18 @@ int main() {
 		Student("Фуа-204г", "Вячеслав", "Тихонов", "Васильевич", 2012, "мужской", 3, 2, 3, 2000),
 		Student("Фуа-204г", "Валентина", "Калинина", "Петровна", 2007, "женский", 5, 5, 5, 1500),
 		Student("Э-Мба-202б", "Ева", "Калинина", "Петровна", 2012, "женский", 5, 5, 5, 1500),
-		Student("Э-Мба-203б", "Ростислава", "Фомина", "Петровна", 2011, "женский", 5, 5, 5, 1500)
+		Student("Э-Мба-203б", "Ростислава", "Фомина", "Петровна", 2011, "женский", 5, 5, 5, 1500),
+		Student("Э-Мба-203б", "Ли", "Нгуен", "Тхи", 2011, "женский", 5, 5, 5, 1500),
+		Student("Э-Мба-203б", "Егор", "Наумов", "Андреевич", 2006, "мужской", 5, 5, 4, 1500),
+		Student("С-АД-202б", "Василиса", "Тарковская", "Андреевна", 2005, "женский", 5, 5, 5, 0),
+		Student("С-АД-202б", "Никита", "Стромов", "Андреевич", 2007, "мужской", 3, 4, 4, 0),
+		Student("С-АД-202б", "Ульяна", "Пылаева", "Андреевна", 2007, "женский", 3, 4, 4, 0),
+		Student("С-АД-202б", "Антонина", "Смирнова", "Алексеевна", 2007, "женский", 5, 5, 5, 0),
+		Student("С-АД-202б", "Людмилла", "Синицина", "Александровна", 2007, "женский", 5, 5, 5, 0),
+		Student("С-АД-203б", "Агафья", "Тихонова", "Андреевна", 2007, "женский", 3, 4, 4, 8810),
+		Student("С-АД-203б", "Пелагея", "Смирнова", "Алексеевна", 2007, "женский", 5, 5, 5, 9500),
+		Student("С-АД-203б", "Анналена", "Синицина", "Александровна", 2007, "женский", 5, 5, 5, 6000)
+
 	};
 
 
@@ -162,7 +177,6 @@ int main() {
 	for (auto& s : students) {
 		s.printStudent();
 		cout << endl;
-
 
 	}
 	cout << "***" << endl;
@@ -298,7 +312,7 @@ int main() {
 		cout << "Задача 20:" << endl;
 		string testGropup = "Фуа-202б";
 		for (auto& s : students) {
-			if (s.group == testGropup && s.calcNegativeScore() > 0 ) {
+			if (s.group == testGropup && s.calcNegativeScore() > 0) {
 				s.stipend = 0;
 				cout << "Фамилия:" << s.surname << endl;
 				cout << "Оценка по физике:" << s.physicsScore << endl;
@@ -337,8 +351,8 @@ int main() {
 	cout << endl;
 	cout << "Задача 23:" << endl;
 	//Подсчет студентов младше 16 лет
-	set<string>testGroups = {"Фуа-202б", "Фуа-201в", "Фуа-204г"};
-	auto cond = [&](const auto& s) -> bool {return testGroups.count(s.group) && s.calcAge() < 16;};
+	set<string>testGroups = { "Фуа-202б", "Фуа-201в", "Фуа-204г" };
+	auto cond = [&](const auto& s) -> bool {return testGroups.count(s.group) && s.calcAge() < 16; };
 	cout << "Студенты млаше 16 лет: " << count_if(students.begin(), students.end(), cond) << endl;
 	cout << endl;
 	for (auto& s : students) {
@@ -347,17 +361,97 @@ int main() {
 			cout << endl;
 		}
 	}
-	
-	
+
+	{
+		cout << endl;
+		cout << "Задача 24:" << endl;
+		string testGropup = "Э-Мба-203б";
+		COURSE_ID courceId = CID_MATHEMATICS;
+		for (auto& s : students) {
+			if (s.group == testGropup) {
+				bool validScore = false;
+				switch(courceId) {
+					case CID_PHYSICS:
+						validScore = s.physicsScore == 5;
+						break;
+					case CID_MATHEMATICS:
+						validScore = s.mathematicsScore == 5;
+						break;
+					case CID_INFORMATICS:
+						validScore = s.informaticsScore == 5;
+						break;
+				}
+
+				if (validScore) {
+					cout << "Фамилия:" << s.surname << endl;
+					cout << "Средний балл:" << s.calcAverageScore() << endl;
+				}
+			}
+		}
+	}
+
+
+	{
+		cout << endl;
+		cout << "Задача 25:" << endl;
+		string testGropup = "С-АД-202б";
+		for (auto& s : students) {
+			if (s.group == testGropup && s.stipend == 0) {
+				cout << "Фамилия:" << s.surname << endl;
+			}
+		}
+		cout << "С положительными оценками: " << 
+			count_if(
+				students.begin(), 
+				students.end(), 
+				[&](auto& s) {return s.checkPositiveScore() && s.stipend == 0 && s.group == testGropup; }
+			)
+			<< endl;
+	}
+	{
+		cout << endl;
+		cout << "Задача 26:" << endl;
+		string testGropup = "С-АД-202б";
+		for (auto& s : students) {
+			if (s.group == testGropup && s.stipend == 0 && s.informaticsScore == 5) {
+				cout << "Фамилия:" << s.surname << endl;
+				cout << "Имя:" << s.name << endl;
+				cout << "Отчество:" << s.patronymic << endl;
+			}
+		}
+	}
+
+
+
+	{
+		cout << endl;
+		cout << "Задача 27:" << endl;
+		string testGropup = "С-АД-203б";
+		size_t countStudents = 0;
+		double averageStipend = 0.0;
+
+		for (auto& s : students) {
+			if (s.group == testGropup) {
+				averageStipend += s.getStipendInRubles();
+				countStudents ++;
+			}
+		}
+		if (countStudents) {
+			averageStipend /= countStudents;
+		}
+
+		cout << "Средняя: " << averageStipend << endl;
+		//Вычисляем стипендии,которые меньше средней более чем на заданную величину
+		double threshold = 3.0;
+		for (auto& s : students) {
+			if (s.group == testGropup && s.getStipendInRubles() + threshold < averageStipend) {
+				cout << "Фамилия:" << s.surname << endl;
+			}
+		}
+	}
 
 	return 0;
 
 }
-
-
-
-
-
-
 
 
