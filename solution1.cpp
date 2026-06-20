@@ -463,11 +463,11 @@ int main() {
 	{
 		cout << endl;
 		cout << "Задача 29:" << endl;
-		string testGropup = "С-АД-203б";
+		string testGroup = "С-АД-203б";
 		size_t countStudents = 0;
 		double averageinformaticsScore = 0.0;
 		for (auto& s : students) {
-			if (s.group == testGropup) {
+			if (s.group == testGroup) {
 				averageinformaticsScore += s.informaticsScore;
 				countStudents++;
 			}
@@ -478,21 +478,21 @@ int main() {
 
 		cout << "Средняя: " << averageinformaticsScore << endl;
 		//Вычисляем оценку по информатике,которая выше среднего балла
-		double threshold = 3.0;
 		for (auto& s : students) {
-			if (s.group == testGropup && s.informaticsScore + threshold > averageinformaticsScore) {
+			if (s.group == testGropup && s.informaticsScore > averageinformaticsScore) {
 				cout << "Фамилия:" << s.surname << endl;
 			}
 		}
 	}
-
-	cout << endl;
-	cout << "Задача 30:" << endl;
-	for (auto& s : students) {
-		if (s.checkPositiveScore()) {
-			cout << "Фамилия:" << s.surname << endl;
+	{
+		cout << endl;
+		cout << "Задача 30:" << endl;
+		string testGroup = "С-АД-203б";
+		for (auto& s : students) {
+			if (s.group == testGroup && s.checkPositiveScore()) {
+				cout << "Фамилия:" << s.surname << endl;
+			}
 		}
-
 	}
 
 
