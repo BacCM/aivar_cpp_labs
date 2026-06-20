@@ -370,16 +370,16 @@ int main() {
 		for (auto& s : students) {
 			if (s.group == testGropup) {
 				bool validScore = false;
-				switch(courceId) {
-					case CID_PHYSICS:
-						validScore = s.physicsScore == 5;
-						break;
-					case CID_MATHEMATICS:
-						validScore = s.mathematicsScore == 5;
-						break;
-					case CID_INFORMATICS:
-						validScore = s.informaticsScore == 5;
-						break;
+				switch (courceId) {
+				case CID_PHYSICS:
+					validScore = s.physicsScore == 5;
+					break;
+				case CID_MATHEMATICS:
+					validScore = s.mathematicsScore == 5;
+					break;
+				case CID_INFORMATICS:
+					validScore = s.informaticsScore == 5;
+					break;
 				}
 
 				if (validScore) {
@@ -400,10 +400,10 @@ int main() {
 				cout << "Фамилия:" << s.surname << endl;
 			}
 		}
-		cout << "С положительными оценками: " << 
+		cout << "С положительными оценками: " <<
 			count_if(
-				students.begin(), 
-				students.end(), 
+				students.begin(),
+				students.end(),
 				[&](auto& s) {return s.checkPositiveScore() && s.stipend == 0 && s.group == testGropup; }
 			)
 			<< endl;
@@ -433,7 +433,7 @@ int main() {
 		for (auto& s : students) {
 			if (s.group == testGropup) {
 				averageStipend += s.getStipendInRubles();
-				countStudents ++;
+				countStudents++;
 			}
 		}
 		if (countStudents) {
@@ -450,8 +450,52 @@ int main() {
 		}
 	}
 
+	{
+		cout << endl;
+		cout << "Задача 28:" << endl;
+		set<string>testGroups = { "Э-Мба-203б", "Фуа-201в", "Фуа-204г" , "Фуа-202б" };
+		for (auto& s : students) {
+			if (testGroups.count(s.group) && s.calcSkippedExams() > 2) {
+				cout << "Фамилия:" << s.surname << endl;
+			}
+		}
+	}
+	{
+		cout << endl;
+		cout << "Задача 29:" << endl;
+		string testGropup = "С-АД-203б";
+		size_t countStudents = 0;
+		double averageinformaticsScore = 0.0;
+		for (auto& s : students) {
+			if (s.group == testGropup) {
+				averageinformaticsScore += s.informaticsScore;
+				countStudents++;
+			}
+		}
+		if (countStudents) {
+			averageinformaticsScore /= countStudents;
+		}
+
+		cout << "Средняя: " << averageinformaticsScore << endl;
+		//Вычисляем оценку по информатике,которая выше среднего балла
+		double threshold = 3.0;
+		for (auto& s : students) {
+			if (s.group == testGropup && s.informaticsScore + threshold > averageinformaticsScore) {
+				cout << "Фамилия:" << s.surname << endl;
+			}
+		}
+	}
+
+	cout << endl;
+	cout << "Задача 30:" << endl;
+	for (auto& s : students) {
+		if (s.checkPositiveScore()) {
+			cout << "Фамилия:" << s.surname << endl;
+		}
+
+	}
+
+
 	return 0;
 
 }
-
-
