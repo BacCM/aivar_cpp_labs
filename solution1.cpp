@@ -80,6 +80,10 @@ struct Student {
 		return (mathematicsScore >= 3 && physicsScore >= 3 && informaticsScore >= 3);
 	}
 
+	bool checkHighScore() const {
+		return (mathematicsScore > 3 && physicsScore > 3 && informaticsScore > 3);
+	}
+
 	int calcPositiveScore() const {
 		return (mathematicsScore >= 3 ? 1 : 0) + (physicsScore >= 3 ? 1 : 0) + (informaticsScore >= 3 ? 1 : 0);
 	}
@@ -492,6 +496,20 @@ int main() {
 			if (s.group == testGroup && s.checkPositiveScore()) {
 				cout << "Фамилия:" << s.surname << endl;
 			}
+		}
+	}
+
+	cout << endl;
+	cout << "Задача 31:" << endl;
+	float addon = 1000.0f;
+	for (auto& s : students) {
+		if (s.checkHighScore()) {
+			s.stipend += addon;
+			cout << "Группа:" << s.group << endl;
+			cout << "Фамилия:" << s.surname << endl;
+			cout << "Имя:" << s.name << endl;
+			cout << "Отчество:" << s.patronymic << endl;
+			cout << "Новая стипендия:" << s.getStipendInRubles() << endl;
 		}
 	}
 
