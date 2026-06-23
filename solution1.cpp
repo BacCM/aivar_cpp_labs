@@ -7,6 +7,9 @@
 #include <map>
 #include <iomanip>
 #include <algorithm>
+#include <sstream>
+#include <numeric>
+
 #include <windows.h>
 
 using namespace std;
@@ -86,6 +89,11 @@ struct Student {
 		return (mathematicsScore > 3 && physicsScore > 3 && informaticsScore > 3);
 	}
 
+	bool checkHighestScore() const {
+		return (mathematicsScore == 5 && physicsScore == 5 && informaticsScore == 5);
+	}
+
+
 	int calcPositiveScore() const {
 		return (mathematicsScore >= 3 ? 1 : 0) + (physicsScore >= 3 ? 1 : 0) + (informaticsScore >= 3 ? 1 : 0);
 	}
@@ -115,6 +123,133 @@ struct Student {
 	}
 };
 
+// Класс Builder для построения информационной строки
+
+class InfoBuilder {
+private:
+	const Student& student;
+	std::stringstream ss;
+	bool first = true;
+
+	// Вспомогательный метод для добавления части с разделителем
+	InfoBuilder& addPart(const std::string& part) {
+		if (!first) {
+			ss << " | ";
+		}
+		ss << part;
+		first = false;
+		return *this;
+	}
+
+public:
+	explicit InfoBuilder(const Student& s) : student(s) {}
+
+	// Методы для добавления различных полей
+	InfoBuilder& name() {
+		return addPart("Имя: " + student.name);
+	}
+
+	InfoBuilder& surname() {
+		return addPart("Фамилия: " + student.surname);
+	}
+
+	InfoBuilder& patronymic() {
+		return addPart("Отчество: " + student.patronymic);
+	}
+
+	InfoBuilder& group() {
+		return addPart("Группа: " + student.group);
+	}
+
+	InfoBuilder& stipend() {
+		std::stringstream temp;
+		temp << std::fixed << std::setprecision(2) << student.stipend / 100.0;
+		return addPart("Стипендия: " + temp.str() + " руб.");
+	}
+
+	InfoBuilder& birthYear() {
+		std::stringstream temp;
+		temp << student.birthYear;
+		return addPart("Год рождения: " + temp.str());
+	}
+
+	InfoBuilder& gender() {
+		return addPart("Пол: " + student.gender);
+	}
+
+	InfoBuilder& physicsScore() {
+		std::stringstream temp;
+		temp << student.physicsScore;
+		return addPart("Физика: " + temp.str());
+	}
+
+	InfoBuilder& mathematicsScore() {
+		std::stringstream temp;
+		temp << student.mathematicsScore;
+		return addPart("Математика: " + temp.str());
+	}
+
+	InfoBuilder& informaticsScore() {
+		std::stringstream temp;
+		temp << student.informaticsScore;
+		return addPart("Информатика: " + temp.str());
+	}
+
+	InfoBuilder& fullName() {
+		return addPart(student.surname + " " + student.name + " " + student.patronymic);
+	}
+
+	InfoBuilder& initials() {
+		std::string initials = student.name.substr(0, 1) + ". " +
+			student.patronymic.substr(0, 1) + ".";
+		return addPart(initials);
+	}
+
+	InfoBuilder& allScores() {
+		std::stringstream temp;
+		temp << "Оценки: Ф=" << student.physicsScore
+			<< ", М=" << student.mathematicsScore
+			<< ", И=" << student.informaticsScore;
+		return addPart(temp.str());
+	}
+
+	InfoBuilder& averageScore() {
+		float avg = (student.physicsScore + student.mathematicsScore + student.informaticsScore) / 3.0f;
+		std::stringstream temp;
+		temp << std::fixed << std::setprecision(2) << avg;
+		return addPart("Средний балл: " + temp.str());
+	}
+
+	InfoBuilder& age(int currentYear = 2026) {
+		std::stringstream temp;
+		temp << (currentYear - student.birthYear);
+		return addPart("Возраст: " + temp.str());
+	}
+
+	InfoBuilder& groupWithNumber() {
+		return addPart("Группа: " + student.group);
+	}
+
+	// Метод для получения итоговой строки
+	std::string s() const {
+		return ss.str().empty() ? "Нет данных" : ss.str();
+	}
+
+	// Оператор преобразования в строку
+	operator std::string() const {
+		return s();
+	}
+
+	// Сброс билдера для повторного использования
+	InfoBuilder& reset() {
+		ss.str(std::string());
+		ss.clear();
+		first = true;
+		return *this;
+	}
+};
+
+
 int main() {
 
 	SetConsoleOutputCP(1251);
@@ -136,7 +271,7 @@ int main() {
 		Student("Фуа-202б", "Софья", "Ипполитова", "Ивановна", 2008, "женский", 0, 0, 0, 0),
 		Student("Фуа-202б", "Дмитрий", "Кузнецов", "Петрович", 2007, "мужской", 5, 5, 5, 1500),
 		Student("Фуа-202б", "Анна", "Морозова", "Владимировна", 2008, "женский", 5, 5, 5, 1500),
-		Student("Фуа-202б", "Екатерина", "Павлова", "Сергеевна", 2008, "женский", 5, 5, 5, 1500),
+		Student("Фуа-202б", "Екатерина", "Павлова", "Сергеевна", 2005, "женский", 5, 5, 5, 1500),
 		Student("Фуа-203а", "Ольга", "Федорова", "Николаевна", 2007, "женский", 5, 5, 5, 1500),
 		Student("Фуа-203а", "Максим", "Васильев", "Игоревич", 2008, "мужской", 4, 5, 4, 900),
 		Student("Фуа-203а", "Елена", "Петрова", "Александровна", 2007, "женский", 5, 4, 5, 1200),
@@ -154,7 +289,7 @@ int main() {
 		Student("Фуа-201в", "Светлана", "Тимофеева", "Максимовна", 2008, "женский", 5, 4, 4, 1000),
 		Student("Фуа-201в", "Александр", "Галкин", "Сергеевич", 2007, "мужской", 0, 0, 0, 0),
 		Student("Фуа-201в", "Алина", "Савина", "Евгеньевна", 2008, "женский", 4, 5, 5, 1100),
-		Student("Фуа-201в", "Гадя", "Хренова", "Петрович", 2011, "женский", 2, 3, 4, 160000),
+		Student("Фуа-201в", "Гадя", "Хренова", "Петрович", 2011, "женский", 2, 3, 4, 1600),
 		Student("Фуа-201в", "Полина", "Николаева", "Ивановна", 2007, "женский", 5, 5, 5, 1500),
 		Student("Фуа-201в", "Егор", "Сидоров", "Андреевич", 2008, "мужской", 5, 5, 5, 1500),
 		Student("Фуа-201в", "Анастасия", "Козлова", "Михайловна", 2007, "женский", 5, 5, 5, 1500),
@@ -532,10 +667,63 @@ int main() {
 		cout << "Доля студентов с нулевой стипендией:" << endl;
 
 		for (auto& g : testGroups) {
-			cout << g << " : " << setprecision(3) << 100.0 * countVoidStipend[g].first / countVoidStipend[g].second <<"%" << endl;
+			cout << g << " : " << setprecision(3) << 100.0 * countVoidStipend[g].first / countVoidStipend[g].second << "%" << endl;
 		}
 	}
+
+
+	cout << endl;
+	cout << "Задача 33:" << endl;
+	for (auto& s : students) {
+		if (s.checkHighestScore()) {
+			cout << "Год рождения:" << s.birthYear << endl;
+			cout << "Пол:" << s.gender << endl;
+		}
+	}
+
+
+	cout << endl;
+	cout << "Задача 34:" << endl;
+	
+
+	int femaleCount = 0;
+	for (auto& s : students) {
+		if (s.calcAge() >= 20 && s.gender == "женский"s) {
+			femaleCount++;
+			cout << "_______________________________" << endl;
+			cout << "Фамилия:" << s.surname << endl;
+			cout << "Имя:" << s.name << endl;
+			cout << "Отчество:" << s.patronymic << endl;
+			cout << "Стипендия:" << s.getStipendInRubles() << endl;
+			cout << "Оценка по физике:" << s.physicsScore << endl;
+			cout << "Оценка по математике:" << s.mathematicsScore << endl;
+			cout << "Оценка по информатике:" << s.informaticsScore << endl;
+
+		}
+
+	}
+	cout << "_______________________________" << endl;
+	cout << "Доля студенток старше 20 лет:" << 100.0 * femaleCount / students.size() << "%" << endl;
+
+	cout << endl;
+	cout << "Задача 35:" << endl;
+
+	auto avg = 1.0 * accumulate(students.begin(), students.end(), 0.0, [](auto acc, const auto& s){return acc + s.stipend;}) / students.size();
+
+	for (auto& s : students) {
+		if (s.stipend < avg && (avg - s.stipend) / avg < 0.15) {
+			s.stipend = static_cast<int>(avg);
+			InfoBuilder inf(s);
+			cout << inf.fullName().group().s() << endl;
+		}
+	}
+
+
 
 	return 0;
 
 }
+
+
+
+
