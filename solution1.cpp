@@ -2,8 +2,10 @@
 //
 
 #include <iostream>
-#include<vector>
-#include<set>
+#include <vector>
+#include <set>
+#include <map>
+#include <iomanip>
 #include <algorithm>
 #include <windows.h>
 
@@ -501,7 +503,7 @@ int main() {
 
 	cout << endl;
 	cout << "Задача 31:" << endl;
-	float addon = 1000.0f;
+	int addon = 1000;
 	for (auto& s : students) {
 		if (s.checkHighScore()) {
 			s.stipend += addon;
@@ -513,6 +515,26 @@ int main() {
 		}
 	}
 
+	{
+		cout << endl;
+		cout << "Задача 32:" << endl;
+		set<string>testGroups = { "Фуа-201в" , "Фуа-202б" };
+		map<string, pair<int, int>> countVoidStipend;
+		for (auto& s : students) {
+			if (testGroups.count(s.group)) {
+				if (s.stipend == 0) {
+					cout << "Фамилия:" << s.surname << endl;
+					countVoidStipend[s.group].first++;
+				}
+				countVoidStipend[s.group].second++;
+			}
+		}
+		cout << "Доля студентов с нулевой стипендией:" << endl;
+
+		for (auto& g : testGroups) {
+			cout << g << " : " << setprecision(3) << 100.0 * countVoidStipend[g].first / countVoidStipend[g].second <<"%" << endl;
+		}
+	}
 
 	return 0;
 
