@@ -676,8 +676,9 @@ int main() {
 	cout << "Задача 33:" << endl;
 	for (auto& s : students) {
 		if (s.checkHighestScore()) {
-			cout << "Год рождения:" << s.birthYear << endl;
-			cout << "Пол:" << s.gender << endl;
+			InfoBuilder inf(s);
+			cout << inf.birthYear().gender().s() << endl;
+
 		}
 	}
 
@@ -690,15 +691,8 @@ int main() {
 	for (auto& s : students) {
 		if (s.calcAge() >= 20 && s.gender == "женский"s) {
 			femaleCount++;
-			cout << "_______________________________" << endl;
-			cout << "Фамилия:" << s.surname << endl;
-			cout << "Имя:" << s.name << endl;
-			cout << "Отчество:" << s.patronymic << endl;
-			cout << "Стипендия:" << s.getStipendInRubles() << endl;
-			cout << "Оценка по физике:" << s.physicsScore << endl;
-			cout << "Оценка по математике:" << s.mathematicsScore << endl;
-			cout << "Оценка по информатике:" << s.informaticsScore << endl;
-
+			InfoBuilder inf(s);
+			cout << inf.fullName().stipend().physicsScore().mathematicsScore().informaticsScore().s() << endl;
 		}
 
 	}
