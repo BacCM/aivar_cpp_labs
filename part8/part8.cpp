@@ -255,22 +255,18 @@ void printArray(const vector<double>& arr, const string& name) {
     cout << "]" << endl;
 }
 
-int main() {
+int main() 
+{
     setlocale(LC_ALL, "ru_RU.UTF-8");
     SetConsoleCP(CP_UTF8);
     SetConsoleOutputCP(CP_UTF8);
 
-    // Ввод трех массивов
-    cout << "=== Ввод массива A ===" << endl;
-    vector<double> A = inputArray("A");
 
-    cout << "\n=== Ввод массива B ===" << endl;
-    vector<double> B = inputArray("B");
+    auto A = inputArray("A");
+    auto B = inputArray("B");
 
-    cout << "\n=== Ввод массива C ===" << endl;
-    vector<double> C = inputArray("C");
+	auto C = inputArray("C");
 
-    // Вывод введенных массивов
     cout << "\n=== Введенные массивы ===" << endl;
     printArray(A, "A");
     printArray(B, "B");
@@ -280,19 +276,7 @@ int main() {
     cout << "\n=== Задача 3 ===" << endl;
     cout << "Какой из массивов имеет наибольший номер минимального элемента?" << endl;
     string result3 = solveTask3(A, B, C);
-    if (result3 != " ") {
-        cout << "Ответ: массив " << result3 << endl;
-
-        // Дополнительная информация
-        int posA = getLastMinPosition(A);
-        int posB = getLastMinPosition(B);
-        int posC = getLastMinPosition(C);
-        cout << "  Позиции последних минимальных элементов: A=" << posA
-            << ", B=" << posB << ", C=" << posC << endl;
-    }
-    else {
-        cout << "Все массивы пусты" << endl;
-    }
+    cout << "Ответ: массив " << result3 << endl;
 
     // ========== Задача 4 ==========
     double limit;
@@ -302,18 +286,7 @@ int main() {
     cin >> limit;
 
     string result4 = solveTask4(A, B, C, limit);
-    if (result4 != " ") {
-        cout << "Ответ: массив " << result4 << endl;
-
-        // Дополнительная информация
-        double sumA = sumSquaresNotExceeding(A, limit);
-        double sumB = sumSquaresNotExceeding(B, limit);
-        double sumC = sumSquaresNotExceeding(C, limit);
-        cout << "  Суммы квадратов: A=" << sumA << ", B=" << sumB << ", C=" << sumC << endl;
-    }
-    else {
-        cout << "Все массивы пусты" << endl;
-    }
+    cout << "Ответ: массив " << result4 << endl;
 
     // ========== Задача 5 ==========
     double left, right;
@@ -325,56 +298,20 @@ int main() {
     cin >> right;
 
     string result5 = solveTask5(A, B, C, left, right);
-    if (result5 != " ") {
-        cout << "Ответ: массив " << result5 << endl;
-
-        // Дополнительная информация
-        double sumA = sumInInterval(A, left, right);
-        double sumB = sumInInterval(B, left, right);
-        double sumC = sumInInterval(C, left, right);
-        cout << "  Суммы в интервале: A=" << sumA << ", B=" << sumB << ", C=" << sumC << endl;
-    }
-    else {
-        cout << "Все массивы пусты" << endl;
-    }
+    cout << "Ответ: массив " << result5 << endl;
 
     // ========== Задача 6 ==========
     cout << "\n=== Задача 6 ===" << endl;
     cout << "Какой из массивов имеет наибольшее среднее арифметическое отрицательных элементов?" << endl;
 
     string result6 = solveTask6(A, B, C);
-    if (result6 != " ") {
-        cout << "Ответ: массив " << result6 << endl;
-
-        // Дополнительная информация
-        double avgA = averageNegative(A);
-        double avgB = averageNegative(B);
-        double avgC = averageNegative(C);
-        cout << "  Средние арифметические отрицательных элементов: A=" << avgA
-            << ", B=" << avgB << ", C=" << avgC << endl;
-    }
-    else {
-        cout << "Нет отрицательных элементов ни в одном массиве" << endl;
-    }
+    cout << "Ответ: массив " << result6 << endl;
 
     // ========== Задача 7 ==========
     cout << "\n=== Задача 7 ===" << endl;
     cout << "Какой из массивов имеет наибольшее произведение ненулевых элементов?" << endl;
 
     string result7 = solveTask7(A, B, C);
-    if (result7 != " ") {
-        cout << "Ответ: массив " << result7 << endl;
-
-        // Дополнительная информация
-        double prodA = productNonZero(A);
-        double prodB = productNonZero(B);
-        double prodC = productNonZero(C);
-        cout << "  Произведения ненулевых элементов: A=" << prodA
-            << ", B=" << prodB << ", C=" << prodC << endl;
-    }
-    else {
-        cout << "Все элементы во всех массивах нулевые" << endl;
-    }
-
+    cout << "Ответ: массив " << result7 << endl;
     return 0;
 }
