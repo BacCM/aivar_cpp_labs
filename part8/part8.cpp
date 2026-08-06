@@ -234,7 +234,7 @@ int main() {
         double sumA = sumInInterval(A, left, right);
         double sumB = sumInInterval(B, left, right);
         double sumC = sumInInterval(C, left, right);
-        cout << "  Суммы в интервале: A=" << sumA << ", B=" << sumB << ", C=" << sumC << endl;
+        cout << "  Суммы в интервале: A= " << sumA << ", B=" << sumB << ", C=" << sumC << endl;
     }
     else {
         cout << "Все массивы пусты" << endl;
